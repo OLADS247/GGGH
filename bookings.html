@@ -152,13 +152,58 @@ method="POST">
 <div>
 <label>Amount</label>
 <select id="amount" name="amount" required>
-<option value="5000">30,000</option>
-<option value="10000">35,000</option>
+<option value="30,000">30,000</option>
+<option value="35,000">35,000</option>
 <!-- <option value="15000">15000</option>
 <option value="20000">20000</option> -->
 </select>
 </div>
 
+<div>
+    <label>Identification Type</label>
+    <select id="idType" name="IdentificationType" required>
+        <option value="" selected disabled>Select Identification</option>
+        <option value="National Identification Number (NIN)">National Identification Number (NIN)</option>
+        <option value="National ID Card">National ID Card</option>
+        <option value="International Passport">International Passport</option>
+        <option value="Driver's License">Driver's License</option>
+        <option value="Voter's Card">Voter's Card</option>
+        <option value="Residence Permit">Residence Permit</option>
+        <option value="Student ID">Student ID</option>
+        <option value="Employee ID">Employee ID</option>
+        <option value="Other">Other</option>
+    </select>
+</div>
+
+<div>
+    <label>Identification Number</label>
+    <input
+        type="text"
+        id="idNumber"
+        name="IdentificationNumber"
+        placeholder="Enter Identification Number"
+        required>
+</div>
+
+<div>
+    <label>Receipt ID</label>
+    <input
+        type="text"
+        id="receiptId"
+        name="ReceiptID"
+        placeholder="e.g. RCP-2026-000145"
+        required>
+</div>
+
+<div>
+    <label>Today's Date</label>
+    <input
+        type="date"
+        id="dateFilled"
+        name="DateFilled"
+        required>
+</div>
+    
 </div>
 
 <button type="submit" class="primary-btn">
