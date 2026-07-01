@@ -200,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const tableBody = document.querySelector("#dataTable tbody");
     const searchInput = document.getElementById("bookingSearch");
     let bookings = JSON.parse(localStorage.getItem("bookings") || "[]");
-    // Auto cleanup older than 30 days
+
     function cleanupOldBookings() {
         const now = Date.now();
         const thirtyDaysAgo = now - (30 * 24 * 60 * 60 * 1000);
@@ -210,8 +210,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         localStorage.setItem("bookings", JSON.stringify(bookings));
     }
-    // Set today's date
+
     document.getElementById("dateFilled").value = new Date().toISOString().split("T")[0];
+
     function renderTable(filteredBookings = bookings) {
         tableBody.innerHTML = "";
         filteredBookings.forEach((booking, index) => {
@@ -237,9 +238,9 @@ document.addEventListener("DOMContentLoaded", () => {
             tableBody.appendChild(row);
         });
     }
-    // Submit Form
+
+    // Improved Submit Handler
     form.addEventListener("submit", function(e) {
-        e.preventDefault();
         const booking = {
             guest: document.getElementById("guestName").value,
             phone: document.getElementById("phoneNumber").value,
@@ -254,22 +255,23 @@ document.addEventListener("DOMContentLoaded", () => {
             dateFilled: document.getElementById("dateFilled").value,
             timestamp: Date.now()
         };
+
         bookings.push(booking);
         localStorage.setItem("bookings", JSON.stringify(bookings));
         renderTable();
-        alert("✅ Booking saved successfully! Email sent.");
-        
-        // Submit to formsubmit.co
+
+        alert("✅ Booking saved successfully! Sending email...");
+
+        // Let the form submit naturally to formsubmit.co
+        // Small delay so alert is seen
         setTimeout(() => {
-            form.submit();
-        }, 500);
-        
-        setTimeout(() => {
+            // Reset form after submission starts
             form.reset();
             document.getElementById("dateFilled").value = new Date().toISOString().split("T")[0];
-        }, 600);
+        }, 300);
     });
-    // Search
+
+    // Search, Delete, Report functions remain the same
     searchInput.addEventListener("input", () => {
         const term = searchInput.value.toLowerCase().trim();
         const filtered = bookings.filter(b =>
@@ -281,7 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
         renderTable(filtered);
     });
-    // Delete
+
     tableBody.addEventListener("click", (e) => {
         if (e.target.classList.contains("delete-btn")) {
             if (confirm("Delete this booking?")) {
@@ -292,7 +294,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     });
-    // Monthly Report Modal
+
     function generateMonthlyReport() {
         const now = new Date();
         const currentMonth = now.getMonth();
@@ -334,11 +336,12 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("reportBody").innerHTML = html;
         document.getElementById("reportModal").style.display = "block";
     }
+
     document.getElementById("reportBtn").addEventListener("click", generateMonthlyReport);
     document.getElementById("closeModal").addEventListener("click", () => {
         document.getElementById("reportModal").style.display = "none";
     });
-    // Initialize
+
     cleanupOldBookings();
     renderTable();
 });
